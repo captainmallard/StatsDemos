@@ -18,7 +18,7 @@ end
 using PlutoUI, Images,LaTeXStrings
 
 # ╔═╡ 03a12b64-75fc-4500-a7c2-d1008e336a92
-using Random, DataFrames, StatsBase, CSV, Distributions
+using Random, DataFrames, StatsBase, CSV, Distributions,FreqTables
 
 # ╔═╡ fb980c21-ddb5-45dc-b2fc-e3ad4d0b7d8a
 md"""
@@ -313,6 +313,15 @@ md"""
 # ╔═╡ 32a96c44-528d-46c8-a956-9922f0d5175a
 @bind FirstMarble Button("First marble from the bag")
 
+# ╔═╡ 5b190ded-d9fc-4a87-bdaa-7f6c5226a67f
+#=╠═╡
+begin
+	println("I'M DRAWING THE FIRST MARBLE FROM THE BAG...")
+	sleep(1)
+	PictureOfMarble(FirstPull)
+end
+  ╠═╡ =#
+
 # ╔═╡ ff1be402-f40b-4180-9bb5-9434d12b03ba
 md"""
 #### Make your second call! Remember, it has to be different from your first call.
@@ -323,6 +332,15 @@ md"""
 
 # ╔═╡ e4262628-49bb-4fd9-a006-285f64c1900a
 @bind SecondMarble Button("Second marble from the bag")
+
+# ╔═╡ 61e09cad-8632-4e23-a4a0-1d6cfe1c20a5
+#=╠═╡
+begin
+	println("I'VE PUT THE FIRST MARBLE BACK AND I'M DRAWING THE SECOND ONE...")
+	sleep(1)
+	PictureOfMarble(SecondPull)
+end
+  ╠═╡ =#
 
 # ╔═╡ 108ae1e6-e38b-401e-a4d0-a66990540511
 md"""
@@ -357,11 +375,6 @@ md"""
 Notice that the probability of losing is the complement.
 """
 
-# ╔═╡ ff7e1a5b-3074-4523-9177-37142b7ccfde
-md"""
-Is this a game you want to keep playing? Probably not! I'm going to win most of the time!
-"""
-
 # ╔═╡ 966bf9a9-c82c-4f4e-bcf2-bda2af3a0653
 md"""
 # Code Appendix
@@ -391,7 +404,7 @@ begin
 	num_red = 5
 	num_blue = 6
 	num_yellow = 3
-end;
+end
 
 # ╔═╡ aa895e05-ca82-49e1-b816-1dc15befee0f
 if FirstMarbleCall == "Red"
@@ -441,14 +454,14 @@ function MarbleScoring(bag_pull_result1, bag_pull_result2, FirstMarbleCall, Seco
 	elseif bag_pull_result1 != FirstMarbleCall && bag_pull_result2 != SecondMarbleCall
 		return "Neither call was correct. I win \$10!"
 	end
-end;
+end
 
 # ╔═╡ 6d55c867-6a70-40b0-b3e1-f9a5272ceec5
 function PullFromBag()
 	ω = weights([5/14; 6/14; 3/14])
 	Marbles = ["Red"; "Blue"; "Yellow"]
 	sample(Marbles, ω)
-end;
+end
 
 # ╔═╡ c9d3cfc1-b33c-45b3-923e-2c436cde1dd6
 FirstPull = let
@@ -481,6 +494,7 @@ end;
 MarbleScoring(FirstPull, SecondPull, FirstMarbleCall, SecondMarbleCall)
 
 # ╔═╡ 9edd2684-7afb-43e9-b4d2-1b76a451b4f5
+#=╠═╡
 function PictureOfMarble(bag_pull_result)
 	if bag_pull_result == "Red"
 		return RedMarblePicture
@@ -489,32 +503,19 @@ function PictureOfMarble(bag_pull_result)
 	elseif bag_pull_result == "Yellow"
 		return YellowMarblePicture
 	end
-end;
-
-# ╔═╡ 5b190ded-d9fc-4a87-bdaa-7f6c5226a67f
-begin
-	println("I'M DRAWING THE FIRST MARBLE FROM THE BAG...")
-	sleep(1)
-	PictureOfMarble(FirstPull)
 end
-
-# ╔═╡ 61e09cad-8632-4e23-a4a0-1d6cfe1c20a5
-begin
-	println("I'VE PUT THE FIRST MARBLE BACK AND I'M DRAWING THE SECOND ONE...")
-	sleep(1)
-	PictureOfMarble(SecondPull)
-end
+  ╠═╡ =#
 
 # ╔═╡ dcb9c754-5aca-4776-9e11-7543d02525ff
 function ReturnData(age,Data)
 	return filter(:Age => n -> n == age,Data)
-end;
+end
 
 # ╔═╡ 804d70ca-16e4-45c4-ac24-ad87fcd5a864
-df₀ = DataFrame(CSV.File("/home/pdc/Desktop/Teaching/Clemson_Fall_2024/ProbabilityDemos/Heart_Disease_Prediction.csv"));
+df₀ = DataFrame(CSV.File("/home/pdc/Desktop/Teaching/Clemson_Fall_2024/ProbabilityDemos/Heart_Disease_Prediction.csv"))
 
 # ╔═╡ 90a1fb67-5366-45ad-89dd-8a6e6490f57c
-df = df₀[:,[:Age, :Sex, :BP, :HeartDisease]];
+df = df₀[:,[:Age, :Sex, :BP, :HeartDisease]]
 
 # ╔═╡ f80d5819-2852-4597-a8b9-629f8ca90743
 df_aggregate = let
@@ -570,7 +571,7 @@ sample_weights = let
 	end
 	ω = (1/df_totals.Total_Cases[1]).*ω
 	weights(ω)
-end;
+end
 
 # ╔═╡ fd2149c3-1696-465f-a63d-5aa1bd50ba0c
 Patient_Age = let
@@ -587,7 +588,7 @@ end
 # ╔═╡ d368d649-658b-44d7-9c1a-5a6717824d2a
 HeartDiseaseRandomSampleProbability = let
 	val = (AgeSampleData.Negative_HD[1]/270)/(AgeSampleData.Total[1]/270)
-end;
+end
 
 # ╔═╡ 53960d6a-fd80-4f63-9ccc-8fc06353b2b0
 L"""
@@ -662,7 +663,7 @@ struct Coin
 	flip_result::Bool
 	flip_name::String
 	picture
-end;
+end
 
 # ╔═╡ 5e8ab254-0a27-4015-a1a9-44ade21fc6d7
 function CoinFlip()
@@ -768,7 +769,7 @@ function MontyHallSimulation_NoSwitch(trials)
 	end
 	println("Probability of winning: $(win/trials)")
 	println("Probability of losing: $(lose/trials)")
-end;
+end
 
 # ╔═╡ 6452e562-8ed1-4d7d-88c8-e9aa0a599b16
 MontyHallSimulation_NoSwitch(MontyHallTrials)
@@ -806,7 +807,7 @@ function MontyHallSimulation_Switch(trials)
 	end
 	println("Probability of winning: $(win/trials)")
 	println("Probability of losing: $(lose/trials)")
-end;
+end
 
 # ╔═╡ 4c13f185-597d-47c0-8392-037bb5bacb92
 MontyHallSimulation_Switch(MontyHallTrials)
@@ -817,6 +818,7 @@ PLUTO_PROJECT_TOML_CONTENTS = """
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+FreqTables = "da1fdf0e-e0ff-5433-a45f-9bb5ff651cb1"
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
 LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
@@ -827,6 +829,7 @@ StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 CSV = "~0.10.14"
 DataFrames = "~1.6.1"
 Distributions = "~0.25.111"
+FreqTables = "~0.4.6"
 Images = "~0.26.1"
 LaTeXStrings = "~1.3.1"
 PlutoUI = "~0.7.60"
@@ -839,7 +842,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.10.1"
 manifest_format = "2.0"
-project_hash = "5196ce66d9267c9be4a4dbfc0325baa472f396e0"
+project_hash = "c6c9ced561ca297edbb37f7176dfa3bc1142579a"
 
 [[deps.AbstractFFTs]]
 deps = ["LinearAlgebra"]
@@ -961,6 +964,24 @@ git-tree-sha1 = "a0f80a09780eed9b1d106a1bf62041c2efc995bc"
 uuid = "aafaddc9-749c-510e-ac4f-586e18779b91"
 version = "0.2.2"
 
+[[deps.CategoricalArrays]]
+deps = ["DataAPI", "Future", "Missings", "Printf", "Requires", "Statistics", "Unicode"]
+git-tree-sha1 = "1568b28f91293458345dabba6a5ea3f183250a61"
+uuid = "324d7699-5711-5eae-9e2f-1d82baa6b597"
+version = "0.10.8"
+
+    [deps.CategoricalArrays.extensions]
+    CategoricalArraysJSONExt = "JSON"
+    CategoricalArraysRecipesBaseExt = "RecipesBase"
+    CategoricalArraysSentinelArraysExt = "SentinelArrays"
+    CategoricalArraysStructTypesExt = "StructTypes"
+
+    [deps.CategoricalArrays.weakdeps]
+    JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+    RecipesBase = "3cdcf5f2-1ef4-517c-9805-6587b60abb01"
+    SentinelArrays = "91c51154-3ec4-41a3-a24f-3f23e20d615c"
+    StructTypes = "856f2bd8-1eba-4b0a-8007-ebc267875bd4"
+
 [[deps.ChainRulesCore]]
 deps = ["Compat", "LinearAlgebra"]
 git-tree-sha1 = "71acdbf594aab5bbb2cec89b208c41b4c411e49f"
@@ -1016,6 +1037,11 @@ deps = ["ColorTypes", "FixedPointNumbers", "Reexport"]
 git-tree-sha1 = "362a287c3aa50601b0bc359053d5c2468f0e7ce0"
 uuid = "5ae59095-9a9b-59fe-a467-6f913c188581"
 version = "0.12.11"
+
+[[deps.Combinatorics]]
+git-tree-sha1 = "08c8b6831dc00bfea825826be0bc8336fc369860"
+uuid = "861a8166-3701-5b0c-9a16-15d98fcdc6aa"
+version = "1.0.2"
 
 [[deps.CommonWorldInvalidations]]
 git-tree-sha1 = "ae52d1c52048455e85a387fbee9be553ec2b68d0"
@@ -1089,6 +1115,12 @@ version = "1.0.0"
 [[deps.Dates]]
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
+
+[[deps.DelimitedFiles]]
+deps = ["Mmap"]
+git-tree-sha1 = "9e2f36d3c96a820c678f2f1f1782582fcf685bae"
+uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
+version = "1.9.1"
 
 [[deps.Distances]]
 deps = ["LinearAlgebra", "Statistics", "StatsAPI"]
@@ -1187,6 +1219,12 @@ deps = ["Statistics"]
 git-tree-sha1 = "05882d6995ae5c12bb5f36dd2ed3f61c98cbb172"
 uuid = "53c48c17-4a7d-5ca2-90c5-79b7896eea93"
 version = "0.8.5"
+
+[[deps.FreqTables]]
+deps = ["CategoricalArrays", "Missings", "NamedArrays", "Tables"]
+git-tree-sha1 = "4693424929b4ec7ad703d68912a6ad6eff103cfe"
+uuid = "da1fdf0e-e0ff-5433-a45f-9bb5ff651cb1"
+version = "0.4.6"
 
 [[deps.Future]]
 deps = ["Random"]
@@ -1646,6 +1684,12 @@ deps = ["OpenLibm_jll"]
 git-tree-sha1 = "0877504529a3e5c3343c6f8b4c0381e57e4387e4"
 uuid = "77ba4419-2d1f-58cd-9bb1-8ffee604a2e3"
 version = "1.0.2"
+
+[[deps.NamedArrays]]
+deps = ["Combinatorics", "DataStructures", "DelimitedFiles", "InvertedIndices", "LinearAlgebra", "Random", "Requires", "SparseArrays", "Statistics"]
+git-tree-sha1 = "58e317b3b956b8aaddfd33ff4c3e33199cd8efce"
+uuid = "86f7a689-2022-50b4-a561-43c23ac3c673"
+version = "0.10.3"
 
 [[deps.NearestNeighbors]]
 deps = ["Distances", "StaticArrays"]
@@ -2291,46 +2335,45 @@ version = "17.4.0+2"
 # ╟─3603b7b1-985d-4c21-a82b-7a07733368b9
 # ╟─d02a00a2-6ff7-4ec0-8afa-34eebc7b5363
 # ╟─cae4f0d6-df9b-4626-b180-a38191505463
-# ╟─54ab948b-36b0-4af7-bf01-8920a9d079b2
-# ╟─203e2921-d9c7-40fc-9f30-165b51bc1bb7
+# ╠═54ab948b-36b0-4af7-bf01-8920a9d079b2
+# ╠═203e2921-d9c7-40fc-9f30-165b51bc1bb7
 # ╟─3ded2fef-af6a-4c9e-a151-a9c90ad41b0c
 # ╟─8baf5a65-4497-445c-9d78-02cef09306e7
-# ╟─7aecc382-f026-4c07-88c1-9dbbf50dc110
-# ╟─1a2bd89a-526e-4d9a-b28a-4f1372c22209
-# ╟─07128f6b-4435-47be-9d47-9e0e73639036
-# ╟─bbddfae0-09d7-4f93-a064-7c5b2dd45412
-# ╟─ff7e1a5b-3074-4523-9177-37142b7ccfde
+# ╠═7aecc382-f026-4c07-88c1-9dbbf50dc110
+# ╠═1a2bd89a-526e-4d9a-b28a-4f1372c22209
+# ╠═07128f6b-4435-47be-9d47-9e0e73639036
+# ╠═bbddfae0-09d7-4f93-a064-7c5b2dd45412
 # ╟─966bf9a9-c82c-4f4e-bcf2-bda2af3a0653
-# ╟─79111809-93fc-4f85-b936-b02306139c0e
-# ╟─7169d5b1-1677-4538-9ce9-2f2f980dc4dc
-# ╟─da0c0c66-0f9f-41d7-a0e3-09166c9a28b4
-# ╟─32e24d45-9cd7-4763-8f24-1008eaeea3a1
-# ╟─aa895e05-ca82-49e1-b816-1dc15befee0f
-# ╟─46fe7f34-be94-4873-b7be-66c5da884c9c
-# ╟─4af8ff80-5dc6-4e6c-a67e-070cf00b41e4
-# ╟─ccd33e97-d461-40e4-9332-009f24f31545
-# ╟─f6ba4b94-e499-457f-88ee-53f67b0653a7
-# ╟─6d55c867-6a70-40b0-b3e1-f9a5272ceec5
-# ╟─9edd2684-7afb-43e9-b4d2-1b76a451b4f5
-# ╟─d368d649-658b-44d7-9c1a-5a6717824d2a
-# ╟─e637c579-3472-40b6-baeb-d31e131921d8
-# ╟─dcb9c754-5aca-4776-9e11-7543d02525ff
-# ╟─804d70ca-16e4-45c4-ac24-ad87fcd5a864
-# ╟─90a1fb67-5366-45ad-89dd-8a6e6490f57c
-# ╟─6849541c-7059-11ef-00fa-4162e4aa1296
-# ╟─03a12b64-75fc-4500-a7c2-d1008e336a92
-# ╟─769b2b4b-81b9-4831-9931-fecc894beccc
-# ╟─d781916f-a481-43b0-ac67-3e449e064152
-# ╟─7d001ab6-cd1f-45e6-a25f-a14c7bc5d121
-# ╟─cdf3d953-e2fb-455b-bf1d-fa0cc07296b4
-# ╟─f0b33f07-cd45-436b-a3b6-5e428b256011
-# ╟─5e8ab254-0a27-4015-a1a9-44ade21fc6d7
-# ╟─83a3f1af-c17d-4fd7-bcae-b713cfa81db0
-# ╟─3a6c0fd3-2f87-4a82-bd7d-7544fd5b4c13
-# ╟─854b6dea-32ec-4319-abe4-430a143fe9b9
-# ╟─501563c6-caf1-4327-b072-a03db1810783
-# ╟─cd33400f-03e6-418e-a5e7-39d004bc31e4
-# ╟─3c3feec6-3a83-4b31-8d2b-c030ef6e50f4
-# ╟─f057d858-4782-4de0-b841-9f3d7501bb83
+# ╠═79111809-93fc-4f85-b936-b02306139c0e
+# ╠═7169d5b1-1677-4538-9ce9-2f2f980dc4dc
+# ╠═da0c0c66-0f9f-41d7-a0e3-09166c9a28b4
+# ╠═32e24d45-9cd7-4763-8f24-1008eaeea3a1
+# ╠═aa895e05-ca82-49e1-b816-1dc15befee0f
+# ╠═46fe7f34-be94-4873-b7be-66c5da884c9c
+# ╠═4af8ff80-5dc6-4e6c-a67e-070cf00b41e4
+# ╠═ccd33e97-d461-40e4-9332-009f24f31545
+# ╠═f6ba4b94-e499-457f-88ee-53f67b0653a7
+# ╠═6d55c867-6a70-40b0-b3e1-f9a5272ceec5
+# ╠═9edd2684-7afb-43e9-b4d2-1b76a451b4f5
+# ╠═d368d649-658b-44d7-9c1a-5a6717824d2a
+# ╠═e637c579-3472-40b6-baeb-d31e131921d8
+# ╠═dcb9c754-5aca-4776-9e11-7543d02525ff
+# ╠═804d70ca-16e4-45c4-ac24-ad87fcd5a864
+# ╠═90a1fb67-5366-45ad-89dd-8a6e6490f57c
+# ╠═6849541c-7059-11ef-00fa-4162e4aa1296
+# ╠═03a12b64-75fc-4500-a7c2-d1008e336a92
+# ╠═769b2b4b-81b9-4831-9931-fecc894beccc
+# ╠═d781916f-a481-43b0-ac67-3e449e064152
+# ╠═7d001ab6-cd1f-45e6-a25f-a14c7bc5d121
+# ╠═cdf3d953-e2fb-455b-bf1d-fa0cc07296b4
+# ╠═f0b33f07-cd45-436b-a3b6-5e428b256011
+# ╠═5e8ab254-0a27-4015-a1a9-44ade21fc6d7
+# ╠═83a3f1af-c17d-4fd7-bcae-b713cfa81db0
+# ╠═3a6c0fd3-2f87-4a82-bd7d-7544fd5b4c13
+# ╠═854b6dea-32ec-4319-abe4-430a143fe9b9
+# ╠═501563c6-caf1-4327-b072-a03db1810783
+# ╠═cd33400f-03e6-418e-a5e7-39d004bc31e4
+# ╠═3c3feec6-3a83-4b31-8d2b-c030ef6e50f4
+# ╠═f057d858-4782-4de0-b841-9f3d7501bb83
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
