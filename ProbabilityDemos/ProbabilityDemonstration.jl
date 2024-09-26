@@ -38,7 +38,7 @@ So in the case of a coin, what's the probability of flipping Heads? Well, there'
 ```math
 	P(\text{Heads}) = \frac{\text{\# of ways to get Heads}}{\text{\# of possible results from flipping the coin}} = \frac{1}{2} = 0.5
 ```
-There's a 50% chance that I'll flip a Heads. Let's use this idea with a sligthly more complicated coin-flipping game.
+There's a 50% chance that I'll flip a Heads. Let's use this idea with a slightly more complicated coin-flipping game.
 """
 
 # ╔═╡ 0dd16c15-14fe-4cc2-9715-4d7b17ed1395
